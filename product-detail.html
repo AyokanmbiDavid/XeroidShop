@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XeroidShop | Item Info</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); }
+        .hide-scroll::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-white font-['Poppins'] hide-scroll">
+    <button onclick="history.back()" class="fixed top-6 left-6 z-50 w-12 h-12 glass rounded-full shadow-lg flex items-center justify-center border border-white active:scale-90 transition-all">
+        <i class="fa-solid fa-chevron-left"></i>
+    </button>
+
+    <div id="hero"></div>
+
+    <div class="p-8 pb-32">
+        <h2 class="text-xl font-bold mb-6">Related Products</h2>
+        <div id="related" class="flex gap-4 overflow-x-auto pb-6 hide-scroll"></div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        const pid = new URLSearchParams(window.location.search).get('id');
+        
+        async function loadDetail() {
+            const res = await fetch('https://fakestoreapi.com/products');
+            const data = await res.json();
+            
+            // Critical: Set the global variable so script.js can see it
+            allProducts = data; 
+            
+            const p = allProducts.find(i => i.id == pid);
+
+            document.getElementById('hero').innerHTML = `
+                <div class="w-full h-[50vh] bg-slate-50 flex items-center justify-center p-12">
+                    <img src="${p.image}" class="max-h-full object-contain mix-blend-multiply">
+                </div>
+                <div class="p-8 -mt-12 bg-white rounded-t-[3.5rem] relative shadow-[0_-15px_40px_rgba(0,0,0,0.05)]">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-blue-600 font-bold text-xs uppercase tracking-tighter">${p.category}</span>
+                        <div class="flex items-center gap-1 text-yellow-500 font-bold"><i class="fa-solid fa-star"></i> ${p.rating.rate}</div>
+                    </div>
+                    <h1 class="text-2xl font-bold text-slate-900 mb-4">${p.title}</h1>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-8">${p.description}</p>
+                    
+                    <div class="flex gap-4 mb-10">
+                         <div class="flex-1 bg-slate-50 p-4 rounded-3xl text-center">
+                            <p class="text-[10px] font-bold text-slate-400">STOCK</p>
+                            <p class="font-bold">${p.rating.count}</p>
+                         </div>
+                         <div class="flex-1 bg-slate-50 p-4 rounded-3xl text-center">
+                            <p class="text-[10px] font-bold text-slate-400">SHIPPING</p>
+                            <p class="font-bold">Free</p>
+                         </div>
+                    </div>
+
+                    <div class="fixed bottom-8 left-8 right-8 flex gap-4 z-50">
+                        <div class="glass flex-1 p-4 rounded-[2rem] shadow-2xl flex justify-between items-center border border-white">
+                            <span class="text-2xl font-bold pl-4">$${p.price}</span>
+                            <button onclick="actionCart(${p.id})" class="bg-slate-900 text-white text-sm px-8 py-4 rounded-2xl font-bold active:scale-95 transition-all">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Render Related
+            const relatedItems = allProducts.filter(i => i.category === p.category && i.id != p.id);
+            document.getElementById('related').innerHTML = relatedItems.map(i => `
+                <a href="product-detail.html?id=${i.id}" class="min-w-[140px] bg-slate-50 p-4 rounded-[2rem] block">
+                    <img src="${i.image}" class="w-full aspect-square object-contain mix-blend-multiply mb-2">
+                    <p class="font-bold text-[10px] truncate">${i.title}</p>
+                    <p class="text-blue-600 font-bold text-xs mt-1">$${i.price}</p>
+                </a>
+            `).join('');
+        }
+        
+        loadDetail();
+    </script>
+</body>
+</html>

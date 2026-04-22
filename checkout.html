@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XeroidShop | Checkout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white p-8 font-['Poppins'] flex flex-col items-center justify-center min-h-screen">
+    <div class="w-full max-w-sm text-center">
+        <h1 class="text-3xl font-bold mb-4">Payment</h1>
+        <div class="bg-slate-50 p-8 rounded-[2.5rem] mb-10">
+            <p class="text-slate-400 text-xs font-bold uppercase mb-2">Total Amount</p>
+            <p id="bill" class="text-4xl font-bold text-slate-900">$0.00</p>
+        </div>
+        <button onclick="alert('Order Successful!'); localStorage.removeItem('xeroid_cart'); location.href='index.html'" class="w-full bg-slate-900 text-white py-6 rounded-3xl font-bold text-xl shadow-2xl">Confirm & Pay</button>
+        <button onclick="history.back()" class="mt-6 text-slate-400 font-bold">Go Back</button>
+    </div>
+    <script>document.getElementById('bill').innerText = `$${localStorage.getItem('final_sum') || '0.00'}`;</script>
+</body>
+</html>

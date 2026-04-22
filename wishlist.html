@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-50 p-6 font-['Poppins']">
+    <div class="flex items-center gap-4 mb-8">
+        <button onclick="location.href='index.html'" class="w-10 h-10 bg-white shadow-sm rounded-full flex items-center justify-center"><i class="fa-solid fa-arrow-left"></i></button>
+        <h1 class="text-2xl font-bold">Wishlist</h1>
+    </div>
+    <div id="wish-list" class="space-y-4"></div>
+
+    <script src="script.js"></script>
+    <script>
+        function render() {
+            const box = document.getElementById('wish-list');
+            allProductsGlobal = wishlist; // Needed so toggle function works
+            box.innerHTML = wishlist.map(item => `
+                <div class="bg-white p-4 rounded-[2rem] flex items-center gap-4 shadow-sm relative">
+                    <img src="${item.image}" class="w-20 h-20 object-contain p-2">
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-bold text-slate-800 text-sm truncate">${item.title}</h3>
+                        <p class="text-blue-600 font-bold">$${item.price}</p>
+                    </div>
+                    <button onclick="handleToggleWishlist(${item.id}); render();" class="text-red-500 p-2 mr-2"><i class="fa-solid fa-trash-can"></i></button>
+                </div>
+            `).join('');
+            if(wishlist.length === 0) box.innerHTML = `<p class="text-center py-20 text-slate-400">Wishlist empty.</p>`;
+        }
+        render();
+    </script>
+</body>
+</html>

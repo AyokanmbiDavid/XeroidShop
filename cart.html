@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XeroidShop | Cart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-50 p-6 font-['Poppins']">
+    <div class="flex items-center gap-4 mb-8">
+        <button onclick="location.href='index.html'" class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm"><i class="fa-solid fa-arrow-left"></i></button>
+        <h1 class="text-2xl font-bold">My Cart</h1>
+    </div>
+    <div id="cart-list" class="space-y-4 mb-10"></div>
+    <div class="bg-slate-900 p-8 rounded-[3rem] text-white">
+        <div class="flex justify-between items-center mb-6">
+            <span class="text-slate-400">Final Total</span>
+            <span id="final-sum" class="text-3xl font-bold text-white">$0.00</span>
+        </div>
+        <button onclick="location.href='checkout.html'" class="w-full bg-blue-600 py-5 rounded-3xl font-bold">Checkout</button>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        function draw() {
+            let total = 0;
+            const items = getStorage('xeroid_cart');
+            document.getElementById('cart-list').innerHTML = items.map((p, idx) => {
+                total += p.price;
+                return `
+                    <div class="bg-white p-4 rounded-[2rem] flex items-center gap-4 shadow-sm">
+                        <img src="${p.image}" class="w-16 h-16 object-contain">
+                        <div class="flex-1 truncate font-bold text-sm">${p.title}</div>
+                        <button onclick="let c=getStorage('xeroid_cart'); c.splice(${idx},1); setStorage('xeroid_cart',c); location.reload();" class="text-slate-300 pr-4"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                `;
+            }).join('');
+            document.getElementById('final-sum').innerText = `$${total.toFixed(2)}`;
+            localStorage.setItem('xeroid_total', total.toFixed(2));
+        }
+        draw();
+    </script>
+</body>
+</html>

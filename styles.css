@@ -1,0 +1,13 @@
+/* Custom Scrollbar for that app feel */
+::-webkit-scrollbar {
+    width: 0px;
+}
+
+body {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Matching the Card Shadow from your screenshot */
+.product-card-shadow {
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.03);
+}
