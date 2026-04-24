@@ -2,33 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wishlist</title>
+    <title>XeroidShop | Saved</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap');
+        body { font-family: 'Google Sans', sans-serif; background: #F8F9FF; }
+    </style>
 </head>
-<body class="bg-slate-50 p-6 font-['Poppins']">
-    <div class="flex items-center gap-4 mb-8">
-        <button onclick="location.href='index.html'" class="w-10 h-10 bg-white shadow-sm rounded-full flex items-center justify-center"><i class="fa-solid fa-arrow-left"></i></button>
-        <h1 class="text-2xl font-bold">Wishlist</h1>
+<body class="p-6 pb-32">
+    <div class="max-w-xl mx-auto">
+        <div class="flex items-center gap-4 mb-8">
+            <button onclick="location.href='index.html'" class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm active:scale-90 transition-all">
+                <span class="material-symbols-rounded">arrow_back</span>
+            </button>
+            <h1 class="text-2xl font-bold">Saved Items</h1>
+        </div>
+        
+        <div id="wish-list" class="space-y-4"></div>
     </div>
-    <div id="wish-list" class="space-y-4"></div>
 
     <script src="script.js"></script>
     <script>
         function render() {
             const box = document.getElementById('wish-list');
-            allProductsGlobal = wishlist; // Needed so toggle function works
             box.innerHTML = wishlist.map(item => `
-                <div class="bg-white p-4 rounded-[2rem] flex items-center gap-4 shadow-sm relative">
-                    <img src="${item.image}" class="w-20 h-20 object-contain p-2">
+                <div class="bg-white p-4 rounded-[32px] flex items-center gap-4 border border-slate-100 shadow-sm relative">
+                    <img src="${item.image}" class="w-20 h-20 object-contain p-2 bg-slate-50 rounded-2xl">
                     <div class="flex-1 min-w-0">
-                        <h3 class="font-bold text-slate-800 text-sm truncate">${item.title}</h3>
-                        <p class="text-blue-600 font-bold">$${item.price}</p>
+                        <h3 class="font-bold text-[#1A1C1E] text-sm truncate">${item.title}</h3>
+                        <p class="text-[#0061A4] font-bold">$${item.price}</p>
                     </div>
-                    <button onclick="handleToggleWishlist(${item.id}); render();" class="text-red-500 p-2 mr-2"><i class="fa-solid fa-trash-can"></i></button>
+                    <button onclick="actionWish(${item.id})" class="text-red-400 p-4 active:scale-90 transition-all">
+                        <span class="material-symbols-rounded">delete</span>
+                    </button>
                 </div>
             `).join('');
-            if(wishlist.length === 0) box.innerHTML = `<p class="text-center py-20 text-slate-400">Wishlist empty.</p>`;
+            if(wishlist.length === 0) box.innerHTML = `<div class="text-center py-20 text-slate-400 font-medium">Your library is empty.</div>`;
         }
         render();
     </script>
