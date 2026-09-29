@@ -10,10 +10,13 @@ function showToast(message, icon = "info") {
     const snackText = document.getElementById("snackText");
     const snackIcon = document.getElementById("snackIcon");
     
-    if(!snack) return;
+    if (!snack) return;
     
     snackText.innerText = message;
     snackIcon.innerText = icon;
+    
+    gsap.fromTo(snack, { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(1.7)" });
+    
     snack.className = "show";
     setTimeout(() => { snack.className = ""; }, 3000);
 }
@@ -25,28 +28,29 @@ function updateBadges() {
     if (w) w.classList.toggle('hidden', wishlist.length === 0);
 }
 
-window.actionWish = (id) => {
+window.actionWish = (id, event) => {
+    if (event) event.stopPropagation();
     const item = allProducts.find(p => p.id == id) || wishlist.find(p => p.id == id);
     if (!item) return;
 
     const idx = wishlist.findIndex(p => p.id == id);
     if (idx === -1) {
         wishlist.push(item);
-        showToast("Added to Saved Items", "favorite");
+        showToast("Saved to collection", "bookmark_added");
     } else {
         wishlist.splice(idx, 1);
-        showToast("Removed from Saved Items", "heart_broken");
+        showToast("Removed from collection", "bookmark_remove");
     }
     
     setStorage('xeroid_wishlist', wishlist);
     updateBadges();
     
-    // Refresh UI if it exists
-    if(typeof render === "function") render(allProducts); 
+    if (typeof render === "function") render(allProducts); 
     else if (window.location.pathname.includes('wishlist.html')) location.reload();
 };
 
-window.actionCart = (id) => {
+window.actionCart = (id, event) => {
+    if (event) event.stopPropagation();
     const item = allProducts.find(p => p.id == id) || wishlist.find(p => p.id == id);
     if (!item) return;
 
@@ -54,9 +58,9 @@ window.actionCart = (id) => {
         cart.push(item);
         setStorage('xeroid_cart', cart);
         updateBadges();
-        showToast("Item added to cart", "shopping_bag");
+        showToast("Added to bag", "shopping_bag");
     } else {
-        showToast("Already in your cart", "error");
+        showToast("Already in bag", "info");
     }
 };
 

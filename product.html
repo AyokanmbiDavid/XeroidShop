@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XeroidShop | Detail</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0" />
+    <link rel="stylesheet" href="styles.css"/>
+</head>
+<body class="pb-32 bg-[#0f1410]">
+    <button onclick="history.back()" class="fixed top-6 left-6 z-50 w-10 h-10 bg-[#182019]/80 backdrop-blur border border-white/10 rounded-2xl shadow-lg flex items-center justify-center text-white active:scale-90 transition-all">
+        <span class="material-symbols-rounded">arrow_back</span>
+    </button>
+
+    <div id="hero"></div>
+
+    <script src="script.js"></script>
+    <script>
+        const pid = new URLSearchParams(window.location.search).get('id');
+        async function loadDetail() {
+            const res = await fetch('https://fakestoreapi.com/products');
+            allProducts = await res.json();
+            const p = allProducts.find(i => i.id == pid);
+
+            document.getElementById('hero').innerHTML = `
+                <div class="w-full h-[45vh] bg-white flex items-center justify-center p-10 relative">
+                    <img id="detail-img" src="${p.image}" class="max-h-full object-contain">
+                </div>
+                <div id="detail-card" class="bg-[#182019] rounded-t-[36px] -mt-8 relative p-8 min-h-[55vh] border-t border-white/10">
+                    <div class="max-w-xl mx-auto">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="bg-[#1e2820] text-lime-400 border border-white/5 font-bold text-[10px] px-3.5 py-1.5 rounded-full uppercase tracking-widest">${p.category}</span>
+                            <div class="flex items-center gap-1 bg-[#1e2820] px-3 py-1 rounded-full text-xs font-bold text-amber-400">
+                                <span class="material-symbols-rounded text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+                                ${p.rating.rate}
+                            </div>
+                        </div>
+                        <h1 class="text-2xl font-bold text-white mb-3">${p.title}</h1>
+                        <p class="text-slate-400 leading-relaxed text-sm mb-10">${p.description}</p>
+                        
+                        <div class="fixed bottom-0 left-0 right-0 p-5 bg-[#182019]/90 backdrop-blur-2xl border-t border-white/10 flex items-center justify-between z-50">
+                            <span class="text-2xl font-bold text-white">$${p.price.toFixed(2)}</span>
+                            <button onclick="actionCart(${p.id})" class="bg-lime-400 text-slate-950 px-8 py-3.5 rounded-2xl font-bold shadow-xl active:scale-95 transition-all">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>`;
+
+            gsap.from("#detail-img", { scale: 0.8, opacity: 0, duration: 0.5, ease: "power2.out" });
+            gsap.from("#detail-card", { y: 40, opacity: 0, duration: 0.5, ease: "power2.out", delay: 0.1 });
+        }
+        loadDetail();
+    </script>
+</body>
+</html>

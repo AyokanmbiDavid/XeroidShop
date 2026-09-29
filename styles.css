@@ -1,52 +1,131 @@
-/* Custom Scrollbar for that app feel */
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap');
+
 ::-webkit-scrollbar {
-    width: 0px;
+    display: none;
 }
 
 body {
     -webkit-tap-highlight-color: transparent;
+    background-color: #121316;
+    color: #e3e2e6;
+    font-family: 'Google Sans', sans-serif;
+    user-select: none;
 }
 
-/* Matching the Card Shadow from your screenshot */
-.product-card-shadow {
-    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.03);
+/* Material Design 3 Peak Expressive Card */
+.m3-bento-card {
+    background: #1e1f23;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 28px;
+    overflow: hidden;
+    transition: all 0.28s cubic-bezier(0.2, 0, 0, 1);
+    position: relative;
 }
 
-/* Ultramodern Dock Styling */
+.m3-bento-card:hover {
+    background: #28292e;
+    border-color: rgba(168, 199, 250, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* Material 3 Dynamic Chip Filter */
+.m3-chip {
+    background: #1e1f23;
+    color: #c4c6d0;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 100px;
+    padding: 8px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+    cursor: pointer;
+}
+
+.m3-chip.active {
+    background: #004a77;
+    color: #c2e7ff;
+    border-color: #a8c7fa;
+}
+
+/* Search Bar Pill */
+.m3-search-pill {
+    background: #1e1f23;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 100px;
+    transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.m3-search-pill:focus-within {
+    background: #28292e;
+    border-color: #a8c7fa;
+    box-shadow: 0 0 0 3px rgba(168, 199, 250, 0.15);
+}
+
+/* Bottom Navigation Dock */
 .m3-dock {
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(30, 31, 35, 0.92);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 32px;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 36px;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
 }
 
-.nav-link {
-    position: relative;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* The Active Indicator Pill */
 .nav-link.active .icon-wrapper {
-    background: #D1E4FF;
-    color: #001D35;
+    background: #004a77;
+    color: #c2e7ff;
     width: 64px;
-    border-radius: 16px;
+    border-radius: 20px;
 }
 
 .icon-wrapper {
-    width: 32px;
+    width: 36px;
     height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
 }
 
 .nav-label {
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 500;
     margin-top: 4px;
-    letter-spacing: 0.2px;
+}
+
+#snackbar {
+    visibility: hidden;
+    min-width: 280px;
+    background: #28292e;
+    color: #e3e2e6;
+    border: 1px solid rgba(168, 199, 250, 0.3);
+    text-align: center;
+    border-radius: 20px;
+    padding: 14px 20px;
+    position: fixed;
+    z-index: 100;
+    left: 50%;
+    bottom: 110px;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.6);
+}
+
+#snackbar.show {
+    visibility: visible;
+    animation: m3SlideUp 0.35s cubic-bezier(0.2, 0, 0, 1) forwards, m3FadeOut 0.35s 2.6s forwards;
+}
+
+@keyframes m3SlideUp {
+    from { transform: translate(-50%, 30px); opacity: 0; }
+    to { transform: translate(-50%, 0); opacity: 1; }
+}
+
+@keyframes m3FadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
 }
